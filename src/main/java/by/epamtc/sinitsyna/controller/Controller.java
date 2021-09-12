@@ -49,7 +49,5 @@ public class Controller extends HttpServlet {
 		String commandName = request.getParameter(RequestParameterName.REQUEST_PARAM_COMMAND_NAME);
 		COMMAND_PROVIDER.getCommand(commandName).execute(request, response);
 	}
-	
-	
 
 }

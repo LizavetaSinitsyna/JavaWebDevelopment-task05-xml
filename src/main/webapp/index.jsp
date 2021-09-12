@@ -15,7 +15,7 @@
 <body>
 	<h1>Parser for Candies from .xml</h1>
 	<form action="Controller" method="post" enctype="multipart/form-data">
-		Select file<br> <input type="file" name="file" />
+		Select file<br> <input type="file" name="file" required/>
 		<input id="command" type="hidden" name="command" value="see-script" /> 
 		<input	type="submit" name="validate" value="validate" onclick="javascript:setValidationCommand()"/>
 		<c:out value="${message}"/><br>

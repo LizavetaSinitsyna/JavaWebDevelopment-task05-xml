@@ -3,13 +3,13 @@ package by.epamtc.sinitsyna.parser;
 import java.util.HashMap;
 import java.util.Map;
 
-import by.epamtc.sinitsyna.bean.Candy;
+import by.epamtc.sinitsyna.bean.Glaze;
 
 public class GlazeProvider {
-	private Map<String, Candy.Glaze> glazeTypes;
+	private Map<String, Glaze> glazeTypes;
 	{
 		glazeTypes = new HashMap<>();
-		Candy.Glaze[] allGlazeTypes = Candy.Glaze.values();
+		Glaze[] allGlazeTypes = Glaze.values();
 		for (int i = 0; i < allGlazeTypes.length; i++) {
 			glazeTypes.put(allGlazeTypes[i].getType(), allGlazeTypes[i]);
 		}
@@ -27,7 +27,7 @@ public class GlazeProvider {
 		return SingletonHelper.INSTANCE;
 	}
 
-	public Candy.Glaze getGlazeType(String type) {
+	public Glaze getGlazeType(String type) {
 		return glazeTypes.get(type);
 	}
 

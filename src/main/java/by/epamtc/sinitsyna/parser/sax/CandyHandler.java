@@ -1,6 +1,7 @@
 package by.epamtc.sinitsyna.parser.sax;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,8 +17,13 @@ import by.epamtc.sinitsyna.bean.NutritionalValue;
 import by.epamtc.sinitsyna.bean.PackedCandy;
 import by.epamtc.sinitsyna.parser.CandyXMLElementEnum;
 import by.epamtc.sinitsyna.parser.GlazeProvider;
+import by.epamtc.sinitsyna.validation.CandyValidationHelper;
+import by.epamtc.sinitsyna.validation.ValidationException;
 
 public class CandyHandler extends DefaultHandler {
+	private static final String UNKNOWN_ATTRIBUTE_MESSAGE = "Unknown attribute type!";
+	private static final String UNKNOWN_ELEMENT_MESSAGE = "Unknown element type!";
+
 	private Set<Candy> candies;
 	private Candy currentCandy;
 	private CandyXMLElementEnum currentCandyEnum;
@@ -37,8 +43,9 @@ public class CandyHandler extends DefaultHandler {
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-		CandyXMLElementEnum elementName = CandyXMLElementEnum.valueOf(localName.toUpperCase());
-		if (elementName != null) {
+		try {
+			CandyXMLElementEnum elementName = CandyXMLElementEnum.valueOf(localName.toUpperCase());
+
 			switch (elementName) {
 			case CANDY:
 				currentCandy = new Candy();
@@ -55,7 +62,14 @@ public class CandyHandler extends DefaultHandler {
 				ingredients = new HashMap<>();
 				break;
 			case INGREDIENT:
-				currentIngredientAmount = Integer.parseInt(attributes.getValue(0));
+				try {
+					currentIngredientAmount = Integer.parseInt(attributes.getValue(0));
+					if (currentIngredientAmount < 0) {
+						throw new ValidationException(CandyValidationHelper.NON_VALID_INGREDIENT_AMOUNT_MESSAGE);
+					}
+				} catch (NumberFormatException | ValidationException e) {
+					throw new SAXException(e.getMessage(), e);
+				}
 				currentCandyEnum = elementName;
 				break;
 			default:
@@ -64,25 +78,32 @@ public class CandyHandler extends DefaultHandler {
 				}
 				break;
 			}
+		} catch (IllegalArgumentException e) {
+			throw new SAXException(UNKNOWN_ELEMENT_MESSAGE, e);
 		}
+
 	}
 
 	private void readCandyAttributes(Candy candy, Attributes attributes) throws SAXException {
-		for (int i = 0; i < attributes.getLength(); i++) {
-			CandyXMLElementEnum attribute = CandyXMLElementEnum.valueOf(attributes.getLocalName(i).toUpperCase());
-			switch (attribute) {
-			case ID:
-				candy.setId(attributes.getValue(i));
-				break;
-			case GLAZE:
-				candy.setGlaze(GlazeProvider.getInstance().getGlazeType(attributes.getValue(i)));
-				break;
-			case PRODUCER:
-				candy.setProducer(attributes.getValue(i));
-				break;
-			default:
-				throw new SAXException("Unknown attribute type!");
+		try {
+			for (int i = 0; i < attributes.getLength(); i++) {
+				CandyXMLElementEnum attribute = CandyXMLElementEnum.valueOf(attributes.getLocalName(i).toUpperCase());
+				switch (attribute) {
+				case ID:
+					candy.setId(attributes.getValue(i));
+					break;
+				case GLAZE:
+					candy.setGlaze(GlazeProvider.getInstance().getGlazeType(attributes.getValue(i)));
+					break;
+				case PRODUCER:
+					candy.setProducer(attributes.getValue(i));
+					break;
+				default:
+					throw new SAXException(UNKNOWN_ATTRIBUTE_MESSAGE);
+				}
 			}
+		} catch (IllegalArgumentException e) {
+			throw new SAXException(UNKNOWN_ATTRIBUTE_MESSAGE, e);
 		}
 	}
 
@@ -95,22 +116,46 @@ public class CandyHandler extends DefaultHandler {
 				currentCandy.setName(s);
 				break;
 			case ENERGY:
-				currentCandy.setEnergy(Integer.parseInt(s));
+				try {
+					int energy = Integer.parseInt(s);
+					if (energy < 0) {
+						throw new ValidationException(CandyValidationHelper.NON_VALID_ENERGY_MESSAGE);
+					}
+					currentCandy.setEnergy(energy);
+				} catch (NumberFormatException | ValidationException e) {
+					throw new SAXException(e.getMessage(), e);
+				}
 				break;
 			case PRODUCTION_DATE_TIME:
-				currentCandy.setProductionDateTime(LocalDateTime.parse(s));
+				try {
+					currentCandy.setProductionDateTime(LocalDateTime.parse(s));
+				} catch (DateTimeParseException e) {
+					throw new SAXException(e.getMessage(), e);
+				}
 				break;
 			case INGREDIENT:
 				ingredients.put(s, currentIngredientAmount);
 				break;
 			case FATS:
-				currentValue.setFats(Double.parseDouble(s));
+				try {
+					currentValue.setFats(Double.parseDouble(s));
+				} catch (NumberFormatException e) {
+					throw new SAXException(e.getMessage(), e);
+				}
 				break;
 			case PROTAINS:
-				currentValue.setProtains(Double.parseDouble(s));
+				try {
+					currentValue.setProtains(Double.parseDouble(s));
+				} catch (NumberFormatException e) {
+					throw new SAXException(e.getMessage(), e);
+				}
 				break;
 			case CARBOHYDRATES:
-				currentValue.setCarbohydrates(Double.parseDouble(s));
+				try {
+					currentValue.setCarbohydrates(Double.parseDouble(s));
+				} catch (NumberFormatException e) {
+					throw new SAXException(e.getMessage(), e);
+				}
 				break;
 			case FILLING:
 				currentCandy.setFilling(s);
@@ -119,7 +164,7 @@ public class CandyHandler extends DefaultHandler {
 				((PackedCandy) currentCandy).setPack(s);
 				break;
 			default:
-				throw new SAXException("Unknown attribute type!");
+				throw new SAXException(UNKNOWN_ELEMENT_MESSAGE);
 			}
 			currentCandyEnum = null;
 		}
@@ -127,8 +172,9 @@ public class CandyHandler extends DefaultHandler {
 
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
-		CandyXMLElementEnum elementName = CandyXMLElementEnum.valueOf(localName.toUpperCase());;
-		if (elementName != null) {
+		try {
+			CandyXMLElementEnum elementName = CandyXMLElementEnum.valueOf(localName.toUpperCase());
+
 			switch (elementName) {
 			case CANDY:
 				candies.add(currentCandy);
@@ -139,6 +185,13 @@ public class CandyHandler extends DefaultHandler {
 				currentCandy = null;
 				break;
 			case VALUE:
+				try {
+					if (!CandyValidationHelper.isNutritionalValueValid(currentValue)) {
+						throw new ValidationException(CandyValidationHelper.NON_VALID_NUTRITION_VALUE_MESSAGE);
+					}
+				} catch (ValidationException e) {
+					throw new SAXException(e.getMessage(), e);
+				}
 				currentCandy.setNutritionalValue(currentValue);
 				currentValue = null;
 				break;
@@ -149,6 +202,8 @@ public class CandyHandler extends DefaultHandler {
 			default:
 				break;
 			}
+		} catch (IllegalArgumentException e) {
+			throw new SAXException(UNKNOWN_ELEMENT_MESSAGE);
 		}
 	}
 }

@@ -17,6 +17,8 @@ import by.epamtc.sinitsyna.parser.AbstractCandiesBuilder;
 import by.epamtc.sinitsyna.parser.CandyXMLElementEnum;
 import by.epamtc.sinitsyna.parser.GlazeProvider;
 import by.epamtc.sinitsyna.parser.ParserException;
+import by.epamtc.sinitsyna.validation.CandyValidationHelper;
+import by.epamtc.sinitsyna.validation.ValidationException;
 
 public class CandiesStAXBuilder extends AbstractCandiesBuilder {
 	private XMLInputFactory inputFactory;
@@ -27,6 +29,9 @@ public class CandiesStAXBuilder extends AbstractCandiesBuilder {
 
 	@Override
 	public void buildCandySet(InputStream fileContent) throws ParserException {
+		if (fileContent == null) {
+			throw new ParserException(NULL_FILE_EXCEPTION);
+		}
 		try {
 			XMLStreamReader xmlReader;
 			CandyXMLElementEnum name = null;
@@ -48,7 +53,7 @@ public class CandiesStAXBuilder extends AbstractCandiesBuilder {
 					}
 				}
 			}
-		} catch (XMLStreamException e) {
+		} catch (XMLStreamException | IllegalArgumentException e) {
 			throw new ParserException(e.getMessage(), e);
 		}
 
@@ -61,7 +66,7 @@ public class CandiesStAXBuilder extends AbstractCandiesBuilder {
 		candy.setId(xmlReader.getAttributeValue(null, CandyXMLElementEnum.ID.getValue()));
 		candy.setProducer(xmlReader.getAttributeValue(null, CandyXMLElementEnum.PRODUCER.getValue()));
 		candy.setGlaze(GlazeProvider.getInstance()
-				.getGlazeType(xmlReader.getAttributeValue(null, CandyXMLElementEnum.PRODUCER.getValue())));
+				.getGlazeType(xmlReader.getAttributeValue(null, CandyXMLElementEnum.GLAZE.getValue())));
 
 		try {
 			while (xmlReader.hasNext()) {
@@ -74,7 +79,11 @@ public class CandiesStAXBuilder extends AbstractCandiesBuilder {
 						candy.setName(getText(xmlReader));
 						break;
 					case ENERGY:
-						candy.setEnergy(Integer.parseInt(getText(xmlReader)));
+						int energy = Integer.parseInt(getText(xmlReader));
+						if (energy < 0) {
+							throw new ValidationException(CandyValidationHelper.NON_VALID_ENERGY_MESSAGE);
+						}
+						candy.setEnergy(energy);
 						break;
 					case PRODUCTION_DATE_TIME:
 						candy.setProductionDateTime(LocalDateTime.parse(getText(xmlReader)));
@@ -83,13 +92,18 @@ public class CandiesStAXBuilder extends AbstractCandiesBuilder {
 						candy.setIngredients(buildIngredients(xmlReader));
 						break;
 					case VALUE:
-						candy.setNutritionalValue(buildValue(xmlReader));
+						NutritionalValue value = buildValue(xmlReader);
+						if (!CandyValidationHelper.isNutritionalValueValid(value)) {
+							throw new ValidationException(CandyValidationHelper.NON_VALID_NUTRITION_VALUE_MESSAGE);
+						}
+						candy.setNutritionalValue(value);
 						break;
 					case FILLING:
 						candy.setFilling(getText(xmlReader));
 						break;
 					case PACK:
-						((PackedCandy) candy).setPack((getText(xmlReader)));
+						String pack = getText(xmlReader);
+						((PackedCandy) candy).setPack(pack);
 						break;
 					default:
 						break;
@@ -105,8 +119,8 @@ public class CandiesStAXBuilder extends AbstractCandiesBuilder {
 					break;
 				}
 			}
-		} catch (XMLStreamException e) {
-			throw new ParserException(e);
+		} catch (XMLStreamException | IllegalArgumentException | ValidationException e) {
+			throw new ParserException(e.getMessage(), e);
 		}
 
 	}

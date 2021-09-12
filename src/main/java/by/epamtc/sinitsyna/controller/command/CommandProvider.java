@@ -21,10 +21,18 @@ public class CommandProvider {
 	}
 
 	public Command getCommand(String commandName) {
-		CommandName command = CommandName.valueOf(commandName.toUpperCase());
-		if (command == null) {
-			return commands.get(CommandName.NO_SUCH_COMMAND);
+		Command command = commands.get(CommandName.NO_SUCH_COMMAND);
+
+		if (commandName == null) {
+			return command;
 		}
-		return commands.get(command);
+
+		try {
+			command = commands.get(CommandName.valueOf(commandName.toUpperCase()));
+		} catch (IllegalArgumentException e) {
+			return command;
+		}
+
+		return command;
 	}
 }

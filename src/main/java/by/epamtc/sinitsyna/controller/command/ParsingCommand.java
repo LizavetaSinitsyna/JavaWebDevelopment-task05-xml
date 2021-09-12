@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import by.epamtc.sinitsyna.bean.Candy;
 import by.epamtc.sinitsyna.controller.RequestParameterName;
 import by.epamtc.sinitsyna.parser.AbstractCandiesBuilder;
@@ -16,36 +19,38 @@ import by.epamtc.sinitsyna.parser.CandiesBuilderFactory;
 import by.epamtc.sinitsyna.parser.ParserException;
 
 public class ParsingCommand implements Command {
+	private static final Logger LOG = LogManager.getLogger(ParsingCommand.class.getName());
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Part filePart = request.getPart(RequestParameterName.REQUEST_PARAM_FILE_NAME);
+		RedirectHelper redirectHelper = RedirectHelper.getInstance();
 		if (filePart.getSize() == 0) {
-			forwardWithMessage(request, response, REQUEST_FILE_MESSAGE, "/index.jsp");
+			redirectHelper.redirectWithSessionAttribute(request, response, AttributeName.MESSAGE,
+					RedirectHelper.REQUEST_FILE_MESSAGE, "/index.jsp");
 		} else {
 			InputStream fileContent = filePart.getInputStream();
 			String parserType = request.getParameter(RequestParameterName.REQUEST_PARAM_PARSER_NAME);
-			CandiesBuilderFactory candiesBuilderFactory = CandiesBuilderFactory.getInstance();
-			try {
-				AbstractCandiesBuilder candiesBuilder = candiesBuilderFactory.createCandiesBuilder(parserType);
-
-				candiesBuilder.buildCandySet(fileContent);
-				Set<Candy> candies = candiesBuilder.getCandies();
-				printCandies(candies);
-				request.setAttribute("candies", candies);
-				request.getRequestDispatcher("/index.jsp").forward(request, response);
-				// response.sendRedirect(request.getContextPath() + "/Controller");
-			} catch (ParserException e) {
-				forwardWithMessage(request, response, REQUEST_VALID_FILE_MESSAGE, "/index.jsp");
+			if (parserType == null) {
+				redirectHelper.redirectWithSessionAttribute(request, response, AttributeName.MESSAGE,
+						RedirectHelper.REQUEST_PARSER_TYPE_MESSAGE, "/index.jsp");
+			} else {
+				CandiesBuilderFactory candiesBuilderFactory = CandiesBuilderFactory.getInstance();
+				try {
+					AbstractCandiesBuilder candiesBuilder = candiesBuilderFactory.createCandiesBuilder(parserType);
+					candiesBuilder.buildCandySet(fileContent);
+					Set<Candy> candies = candiesBuilder.getCandies();
+					printCandies(candies);
+					redirectHelper.redirectWithSessionAttribute(request, response, AttributeName.CANDIES, candies,
+							"/index.jsp");
+				} catch (ParserException e) {
+					LOG.error(e);
+					redirectHelper.redirectWithSessionAttribute(request, response, AttributeName.MESSAGE,
+							RedirectHelper.REQUEST_VALID_FILE_MESSAGE, "/index.jsp");
+				}
 			}
 		}
 
-	}
-
-	private void forwardWithMessage(HttpServletRequest request, HttpServletResponse response, String message,
-			String jsp) throws ServletException, IOException {
-		request.setAttribute("message", message);
-		request.getRequestDispatcher(jsp).forward(request, response);
 	}
 
 	public void printCandies(Set<Candy> candies) {

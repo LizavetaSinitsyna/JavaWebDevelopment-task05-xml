@@ -14,7 +14,7 @@ import javax.xml.validation.Validator;
 import org.xml.sax.SAXException;
 
 public class XSDValidator {
-	private static final String XSDSCHEMA_PATH = "/Candies.xsd";
+	private String xsdSchemaPath = "/Candies.xsd";
 
 	private XSDValidator() {
 	}
@@ -26,13 +26,16 @@ public class XSDValidator {
 	public static XSDValidator getInstance() {
 		return SingletonHelper.INSTANCE;
 	}
+	
+	public void setXSDSchemaPath(String schemaPath) {
+		this.xsdSchemaPath = schemaPath;
+	}
 
 	public boolean validateXMLSchema(InputStream fileContent) throws ValidationException {
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		Schema schema;
+		URL schemaResource = getClass().getClassLoader().getResource(xsdSchemaPath);
 		try {
-			URL schemaResource = getClass().getClassLoader().getResource(XSDSCHEMA_PATH);
-			schema = schemaFactory.newSchema(schemaResource);
+			Schema schema = schemaFactory.newSchema(schemaResource);
 			Validator validator = schema.newValidator();
 			validator.validate(new StreamSource(new BufferedInputStream(fileContent)));
 		} catch (IOException e) {

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.example.org/Candies"
+	xmlns:tns="http://www.example.org/Candies"
+	elementFormDefault="qualified">
+	<element name="candy" type="tns:Candy"></element>
+	<element name="packed_candy" type="tns:PackedCandy"
+		substitutionGroup="tns:candy"></element>
+	<element name="candies">
+		<complexType>
+			<sequence minOccurs="1" maxOccurs="unbounded">
+				<element ref="tns:candy" />
+			</sequence>
+		</complexType>
+	</element>
+	<complexType name="Candy">
+		<sequence>
+			<element name="name" type="string" />
+			<element name="energy" type="positiveInteger" />
+			<element name="production_date_time" type="dateTime" />
+			<element name="ingredients">
+				<complexType>
+					<sequence minOccurs="1" maxOccurs="unbounded">
+						<element name="ingredient" type="tns:Ingredient" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="value" type="tns:Value" />
+			<element name="filling" type="string" />
+		</sequence>
+		<attribute name="id" type="ID" use="required"></attribute>
+		<attribute name="producer" use="optional">
+			<simpleType>
+				<restriction base="string">
+					<pattern
+						value="[А-Яа-яA-Za-z\-\s]+ &quot;[А-Яа-я0-9A-Za-z\-\.\s]{2,}&quot;" />
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="glaze" use="optional"
+			default="без глазури">
+			<simpleType>
+				<restriction base="string">
+					<enumeration value="без глазури" />
+					<enumeration value="шоколадная" />
+					<enumeration value="жировая" />
+					<enumeration value="карамельная" />
+					<enumeration value="сахарная" />
+					<enumeration value="помадная" />
+					<enumeration value="пектиновая" />
+				</restriction>
+			</simpleType>
+		</attribute>
+	</complexType>
+	<complexType name="Ingredient">
+		<simpleContent>
+			<extension base="string">
+				<attribute name="amount" type="positiveInteger"
+					use="required" />
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="Value">
+		<sequence>
+			<element name="fats" type="tns:BoundedDouble" />
+			<element name="protains" type="tns:BoundedDouble" />
+			<element name="carbohydrates" type="tns:BoundedDouble" />
+		</sequence>
+	</complexType>
+	<complexType name="PackedCandy">
+		<complexContent>
+			<extension base="tns:Candy">
+				<sequence>
+					<element name="pack" type="string" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<simpleType name="BoundedDouble">
+		<restriction base="double">
+			<minInclusive value="0"></minInclusive>
+			<maxInclusive value="100"></maxInclusive>
+		</restriction>
+	</simpleType>
+</schema>

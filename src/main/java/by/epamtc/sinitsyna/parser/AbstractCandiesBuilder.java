@@ -7,6 +7,8 @@ import java.util.TreeSet;
 import by.epamtc.sinitsyna.bean.Candy;
 
 public abstract class AbstractCandiesBuilder {
+	protected static final String NULL_FILE_EXCEPTION = "Файл не должен быть равен null.";
+
 	protected Set<Candy> candies;
 	
 	public AbstractCandiesBuilder() {

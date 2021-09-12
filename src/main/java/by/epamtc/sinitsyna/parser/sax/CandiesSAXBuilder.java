@@ -33,6 +33,9 @@ public class CandiesSAXBuilder extends AbstractCandiesBuilder {
 
 	@Override
 	public void buildCandySet(InputStream fileContent) throws ParserException {
+		if (fileContent == null) {
+			throw new ParserException(NULL_FILE_EXCEPTION);
+		}
 		try {
 			reader.parse(new InputSource(fileContent));
 		} catch (IOException | SAXException e) {
