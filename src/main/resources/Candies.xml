@@ -2,7 +2,7 @@
 <candies xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://www.example.org/Candies"
 	xsi:schemaLocation="http://www.example.org/Candies Candies.xsd">
-	<candy id="ID_1" producer="СОАО &quot;Коммунарка&quot;"
+	<candy id="ID_01" producer="СОАО &quot;Коммунарка&quot;"
 		glaze="шоколадная">
 		<name>Минский грильяж</name>
 		<energy>388</energy>
@@ -19,7 +19,7 @@
 		</value>
 		<filling>Фруктовый, Ореховый</filling>
 	</candy>
-	<packed_candy id="ID_2"
+	<packed_candy id="ID_02"
 		producer="ОАО &quot;Красный Мозырянин&quot;" glaze="без глазури">
 		<name>Ирис</name>
 		<energy>410</energy>
@@ -37,7 +37,7 @@
 		<filling>Ирис</filling>
 		<pack>Флоу-пак</pack>
 	</packed_candy>
-	<packed_candy id="ID_3"
+	<packed_candy id="ID_03"
 		producer="ООО &quot;Нестле Россия&quot;" glaze="шоколадная">
 		<name>Конфета «Nuts»</name>
 		<energy>485</energy>
@@ -55,7 +55,7 @@
 		<filling>Нуга, Карамель, Орехи</filling>
 		<pack>Флоу-пак</pack>
 	</packed_candy>
-	<candy id="ID_4" producer="СП ОАО &quot;Спартак&quot;">
+	<candy id="ID_04" producer="СП ОАО &quot;Спартак&quot;">
 		<name>Карамель «Клубника со сливками»</name>
 		<energy>380</energy>
 		<production_date_time>2021-06-29T13:00:00</production_date_time>
@@ -71,4 +71,214 @@
 		</value>
 		<filling>Мягкая начинка из сгущенки с ароматом клубники со сливками</filling>
 	</candy>
+	<candy id="ID_05" producer="ИООО &quot;Алиди-Вест&quot;">
+		<name>Мармелад жевательный «Бон Пари» машинки</name>
+		<energy>335</energy>
+		<production_date_time>2021-05-17T00:01:34</production_date_time>
+		<ingredients>
+			<ingredient amount="15">сахар</ingredient>
+			<ingredient amount="20">патока</ingredient>
+			<ingredient amount="10">желатин</ingredient>
+		</ingredients>
+		<value>
+			<fats>0.18</fats>
+			<protains>5.2</protains>
+			<carbohydrates>77</carbohydrates>
+		</value>
+		<filling>Фруктовый мармелад</filling>
+	</candy>
+	<packed_candy id="ID_06"
+		producer="ООО &quot;МарсСЕАБ&quot;" glaze="сахарная">
+		<name>Драже «M&amp;M's» с шоколадом</name>
+		<energy>491</energy>
+		<production_date_time>2021-08-13T13:47:00</production_date_time>
+		<ingredients>
+			<ingredient amount="15">сахар</ingredient>
+			<ingredient amount="50">шоколад</ingredient>
+			<ingredient amount="5">крахмал кукурузный</ingredient>
+		</ingredients>
+		<value>
+			<fats>18.9</fats>
+			<protains>4.4</protains>
+			<carbohydrates>74.6</carbohydrates>
+		</value>
+		<filling>Шоколадный</filling>
+		<pack>Флоу-пак</pack>
+	</packed_candy>
+	<packed_candy id="ID_07"
+		producer="ЗАО &quot;Ферреро Руссия&quot;">
+		<name>Конфеты «Raffaello»</name>
+		<energy>628</energy>
+		<production_date_time>2021-09-17T16:07:00</production_date_time>
+		<ingredients>
+			<ingredient amount="24">сушеная кокосовая стружка</ingredient>
+			<ingredient amount="10">сахар</ingredient>
+			<ingredient amount="5">растительное масло</ingredient>
+		</ingredients>
+		<value>
+			<fats>48.6</fats>
+			<protains>7.5</protains>
+			<carbohydrates>38.3</carbohydrates>
+		</value>
+		<filling>Цельный миндаль с нежной помадкой</filling>
+		<pack>Картонная коробка</pack>
+	</packed_candy>
+	<packed_candy id="ID_08"
+		producer="ИО &quot;Август Сторк&quot;">
+		<name>Конфеты «TOFFIFFEE»</name>
+		<energy>516</energy>
+		<production_date_time>2021-09-11T11:00:00</production_date_time>
+		<ingredients>
+			<ingredient amount="15">лесные орехи цельные</ingredient>
+			<ingredient amount="25">сахар</ingredient>
+			<ingredient amount="20">растительные жиры</ingredient>
+		</ingredients>
+		<value>
+			<fats>28.7</fats>
+			<protains>5.9</protains>
+			<carbohydrates>58.5</carbohydrates>
+		</value>
+		<filling>Лесной орех с кремовой нугой</filling>
+		<pack>Картонная коробка</pack>
+	</packed_candy>
+	<packed_candy id="ID_09"
+		producer="ИО &quot;Чокмод С.А.С&quot;">
+		<name>Конфеты «Chocmod» французские трюфели</name>
+		<energy>614</energy>
+		<production_date_time>2021-09-08T09:05:00</production_date_time>
+		<ingredients>
+			<ingredient amount="15">какао-порошок</ingredient>
+			<ingredient amount="25">сахар</ingredient>
+			<ingredient amount="30">растительные жиры</ingredient>
+		</ingredients>
+		<value>
+			<fats>47.2</fats>
+			<protains>4.9</protains>
+			<carbohydrates>40.0</carbohydrates>
+		</value>
+		<filling>Трюфель</filling>
+		<pack>Картонная коробка</pack>
+	</packed_candy>
+	<packed_candy id="ID_10"
+		producer="ИО &quot;Кент Гида Мадделери Санаылл Ве Тицарет А.С.ъ&quot;">
+		<name>Конфеты «Halls» Mini Mints, со вкусом арбуза</name>
+		<energy>236</energy>
+		<production_date_time>2021-03-09T07:36:00</production_date_time>
+		<ingredients>
+			<ingredient amount="25">сорбит</ingredient>
+			<ingredient amount="20">аспартам</ingredient>
+			<ingredient amount="15">сахароза</ingredient>
+		</ingredients>
+		<value>
+			<fats>0.1</fats>
+			<protains>0</protains>
+			<carbohydrates>96.0</carbohydrates>
+		</value>
+		<filling>Заменители сахара</filling>
+		<pack>Пластмассовая коробочка</pack>
+	</packed_candy>
+	<candy id="ID_11" producer="ООО &quot;Перфетти Ван Мелле&quot;">
+		<name>Ирис «Meller» с шоколадом</name>
+		<energy>411</energy>
+		<production_date_time>2021-06-13T13:27:00</production_date_time>
+		<ingredients>
+			<ingredient amount="40">сахар</ingredient>
+			<ingredient amount="30">глюкозный сироп</ingredient>
+			<ingredient amount="27">шоколад</ingredient>
+		</ingredients>
+		<value>
+			<fats>8.8</fats>
+			<protains>2.8</protains>
+			<carbohydrates>79.0</carbohydrates>
+		</value>
+		<filling>Шоколад</filling>
+	</candy>
+	<candy id="ID_12" producer="ООО &quot;Марс&quot;"
+		glaze="шоколадная">
+		<name>Шоколадный батончик «Milky Way» minis с суфле</name>
+		<energy>452</energy>
+		<production_date_time>2021-07-31T05:47:00</production_date_time>
+		<ingredients>
+			<ingredient amount="70">суфле</ingredient>
+			<ingredient amount="10">шоколад</ingredient>
+			<ingredient amount="1">ароматизатор</ingredient>
+		</ingredients>
+		<value>
+			<fats>16.5</fats>
+			<protains>3</protains>
+			<carbohydrates>72.4</carbohydrates>
+		</value>
+		<filling>Суфле</filling>
+	</candy>
+	<packed_candy id="ID_13"
+		producer="ЗАО &quot;Ереванская Шоколадная Компания&quot;"
+		glaze="шоколадная">
+		<name>Конфеты «Sonuar» сухофрукты с орехами в шоколаде</name>
+		<energy>412</energy>
+		<production_date_time>2021-09-17T12:45:00</production_date_time>
+		<ingredients>
+			<ingredient amount="10">финики</ingredient>
+			<ingredient amount="9">миндаль</ingredient>
+			<ingredient amount="8">шоколад</ingredient>
+		</ingredients>
+		<value>
+			<fats>18.66</fats>
+			<protains>4.9</protains>
+			<carbohydrates>51.48</carbohydrates>
+		</value>
+		<filling>Сухофрукты с миндалем</filling>
+		<pack>Картонная коробка</pack>
+	</packed_candy>
+	<packed_candy id="ID_14"
+		producer="ЗАО &quot;Ереванская Шоколадная Компания&quot;"
+		glaze="шоколадная">
+		<name>Конфеты шоколадные «Mark Sevouni» Авангард</name>
+		<energy>547</energy>
+		<production_date_time>2021-09-16T17:58:00</production_date_time>
+		<ingredients>
+			<ingredient amount="10">сахар</ingredient>
+			<ingredient amount="9">какао тертое</ingredient>
+			<ingredient amount="8">растительные жиры</ingredient>
+		</ingredients>
+		<value>
+			<fats>36.09</fats>
+			<protains>5.33</protains>
+			<carbohydrates>47.93</carbohydrates>
+		</value>
+		<filling>Кремовая начинка</filling>
+		<pack>Жестяная туба</pack>
+	</packed_candy>
+	<candy id="ID_15" producer="ОДО &quot;Аматег&quot;">
+		<name>Конфеты «Pectilino» с соком яблока</name>
+		<energy>240</energy>
+		<production_date_time>2021-04-27T06:06:00</production_date_time>
+		<ingredients>
+			<ingredient amount="30">сахар</ingredient>
+			<ingredient amount="15">патока</ingredient>
+			<ingredient amount="13">пектин</ingredient>
+		</ingredients>
+		<value>
+			<fats>0</fats>
+			<protains>0</protains>
+			<carbohydrates>60</carbohydrates>
+		</value>
+		<filling>Мармелад</filling>
+	</candy>
+	<packed_candy id="ID_16" producer="ОДО &quot;Аматег&quot;">
+		<name>Конфеты «Аскорбиночка» малина, обогащенные витамином С</name>
+		<energy>380</energy>
+		<production_date_time>2021-08-29T19:23:00</production_date_time>
+		<ingredients>
+			<ingredient amount="70">глюкоза</ingredient>
+			<ingredient amount="10">крахмал картофельный</ingredient>
+			<ingredient amount="5">Витамин С</ingredient>
+		</ingredients>
+		<value>
+			<fats>0</fats>
+			<protains>0</protains>
+			<carbohydrates>93</carbohydrates>
+		</value>
+		<filling>Глюкоза</filling>
+		<pack>Бумажная</pack>
+	</packed_candy>
 </candies>
