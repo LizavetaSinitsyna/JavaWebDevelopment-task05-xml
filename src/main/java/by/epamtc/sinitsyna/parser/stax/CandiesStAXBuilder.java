@@ -2,6 +2,7 @@ package by.epamtc.sinitsyna.parser.stax;
 
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -86,7 +87,11 @@ public class CandiesStAXBuilder extends AbstractCandiesBuilder {
 						candy.setEnergy(energy);
 						break;
 					case PRODUCTION_DATE_TIME:
-						candy.setProductionDateTime(LocalDateTime.parse(getText(xmlReader)));
+						try {
+							candy.setProductionDateTime(LocalDateTime.parse(getText(xmlReader)));
+						} catch (DateTimeParseException e) {
+							throw new ParserException(e.getMessage(), e);
+						}
 						break;
 					case INGREDIENTS:
 						candy.setIngredients(buildIngredients(xmlReader));
@@ -164,7 +169,8 @@ public class CandiesStAXBuilder extends AbstractCandiesBuilder {
 		return value;
 	}
 
-	private Map<String, Integer> buildIngredients(XMLStreamReader xmlReader) throws XMLStreamException {
+	private Map<String, Integer> buildIngredients(XMLStreamReader xmlReader)
+			throws XMLStreamException, ValidationException {
 		String ingredientName = null;
 		int amount = 0;
 		int type;
@@ -174,6 +180,9 @@ public class CandiesStAXBuilder extends AbstractCandiesBuilder {
 			type = xmlReader.next();
 			if (type == XMLStreamConstants.START_ELEMENT) {
 				amount = Integer.parseInt(xmlReader.getAttributeValue(null, CandyXMLElementEnum.AMOUNT.getValue()));
+				if (amount < 0) {
+					throw new ValidationException(CandyValidationHelper.NON_VALID_INGREDIENT_AMOUNT_MESSAGE);
+				}
 				ingredientName = getText(xmlReader);
 			} else if (type == XMLStreamConstants.END_ELEMENT) {
 				switch (CandyXMLElementEnum.valueOf(xmlReader.getLocalName().toUpperCase())) {

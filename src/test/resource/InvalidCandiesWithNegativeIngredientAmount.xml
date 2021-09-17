@@ -37,38 +37,4 @@
 		<filling>Ирис</filling>
 		<pack>Флоу-пак</pack>
 	</packed_candy>
-	<packed_candy id="ID_3"
-		producer="ООО &quot;Нестле Россия&quot;" glaze="шоколадная">
-		<name>Конфета «Nuts»</name>
-		<energy>485</energy>
-		<production_date_time>2021-07-29T00:15:00</production_date_time>
-		<ingredients>
-			<ingredient amount="20">сахар</ingredient>
-			<ingredient amount="15">патока</ingredient>
-			<ingredient amount="2">пальмовое масло</ingredient>
-		</ingredients>
-		<value>
-			<fats>22</fats>
-			<protains>4.9</protains>
-			<carbohydrates>65</carbohydrates>
-		</value>
-		<filling>Нуга, Карамель, Орехи</filling>
-		<pack>Флоу-пак</pack>
-	</packed_candy>
-	<candy id="ID_4" producer="СП ОАО &quot;Спартак&quot;">
-		<name>Карамель «Клубника со сливками»</name>
-		<energy>380</energy>
-		<production_date_time>2021-06-29T13:00:00</production_date_time>
-		<ingredients>
-			<ingredient amount="25">сахар</ingredient>
-			<ingredient amount="15">патока</ingredient>
-			<ingredient amount="10">сгущенное молоко</ingredient>
-		</ingredients>
-		<value>
-			<fats>1</fats>
-			<protains>0.5</protains>
-			<carbohydrates>92</carbohydrates>
-		</value>
-		<filling>Мягкая начинка из сгущенки с ароматом клубники со сливками</filling>
-	</candy>
 </candies>

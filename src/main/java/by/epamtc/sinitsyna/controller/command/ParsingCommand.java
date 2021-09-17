@@ -29,24 +29,27 @@ public class ParsingCommand implements Command {
 			redirectHelper.redirectWithSessionAttribute(request, response, AttributeName.MESSAGE,
 					RedirectHelper.REQUEST_FILE_MESSAGE, "/index.jsp");
 		} else {
-			InputStream fileContent = filePart.getInputStream();
-			String parserType = request.getParameter(RequestParameterName.REQUEST_PARAM_PARSER_NAME);
-			if (parserType == null) {
-				redirectHelper.redirectWithSessionAttribute(request, response, AttributeName.MESSAGE,
-						RedirectHelper.REQUEST_PARSER_TYPE_MESSAGE, "/index.jsp");
-			} else {
-				CandiesBuilderFactory candiesBuilderFactory = CandiesBuilderFactory.getInstance();
-				try {
-					AbstractCandiesBuilder candiesBuilder = candiesBuilderFactory.createCandiesBuilder(parserType);
-					candiesBuilder.buildCandySet(fileContent);
-					Set<Candy> candies = candiesBuilder.getCandies();
-					printCandies(candies);
-					redirectHelper.redirectWithSessionAttribute(request, response, AttributeName.CANDIES, candies,
-							"/index.jsp");
-				} catch (ParserException e) {
-					LOG.error(e);
+			try (InputStream fileContent = filePart.getInputStream()) {
+				String parserType = request.getParameter(RequestParameterName.REQUEST_PARAM_PARSER_NAME);
+				if (parserType == null) {
 					redirectHelper.redirectWithSessionAttribute(request, response, AttributeName.MESSAGE,
-							RedirectHelper.REQUEST_VALID_FILE_MESSAGE, "/index.jsp");
+							RedirectHelper.REQUEST_PARSER_TYPE_MESSAGE, "/index.jsp");
+				} else {
+					CandiesBuilderFactory candiesBuilderFactory = CandiesBuilderFactory.getInstance();
+					try {
+						AbstractCandiesBuilder candiesBuilder = candiesBuilderFactory.createCandiesBuilder(parserType);
+						candiesBuilder.buildCandySet(fileContent);
+						Set<Candy> candies = candiesBuilder.getCandies();
+						// According to the task we can print result in console instead of printing on
+						// the page.
+						printCandies(candies);
+						redirectHelper.redirectWithSessionAttribute(request, response, AttributeName.CANDIES, candies,
+								"/index.jsp");
+					} catch (ParserException e) {
+						LOG.error(e);
+						redirectHelper.redirectWithSessionAttribute(request, response, AttributeName.MESSAGE,
+								RedirectHelper.REQUEST_VALID_FILE_MESSAGE, "/index.jsp");
+					}
 				}
 			}
 		}

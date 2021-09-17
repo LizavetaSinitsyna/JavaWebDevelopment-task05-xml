@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<candies xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.example.org/Candies"
+	xsi:schemaLocation="http://www.example.org/Candies Candies.xsd">
+	<candy id="ID_1" producer="СОАО &quot;Коммунарка&quot;"
+		glaze="шоколадная">
+		<name>Минский грильяж</name>
+		<energy>388</energy>
+		<production_date_time>2021-08-29 13:00:00</production_date_time>
+		<ingredients>
+			<ingredient amount="30">сахар</ingredient>
+			<ingredient amount="20">арахис</ingredient>
+			<ingredient amount="20">пюре яблочное</ingredient>
+		</ingredients>
+		<value>
+			<fats>10.4</fats>
+			<protains>2.5</protains>
+			<carbohydrates>74.1</carbohydrates>
+		</value>
+		<filling>Фруктовый, Ореховый</filling>
+	</candy>
+	<packed_candy id="ID_2"
+		producer="ОАО &quot;Красный Мозырянин&quot;" glaze="без глазури">
+		<name>Ирис</name>
+		<energy>410</energy>
+		<production_date_time>2021-08-29T13:30:00</production_date_time>
+		<ingredients>
+			<ingredient amount="20">сахар</ingredient>
+			<ingredient amount="50">сгущенное молоко</ingredient>
+			<ingredient amount="20">сливочное масло</ingredient>
+		</ingredients>
+		<value>
+			<fats>7.5</fats>
+			<protains>2.5</protains>
+			<carbohydrates>82</carbohydrates>
+		</value>
+		<filling>Ирис</filling>
+		<pack>Флоу-пак</pack>
+	</packed_candy>
+</candies>

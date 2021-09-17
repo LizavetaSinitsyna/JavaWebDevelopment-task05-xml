@@ -26,8 +26,7 @@ public class ValidationCommand implements Command {
 			redirectHelper.redirectWithSessionAttribute(request, response, AttributeName.MESSAGE,
 					RedirectHelper.REQUEST_FILE_MESSAGE, "/index.jsp");
 		} else {
-			InputStream fileContent = filePart.getInputStream();
-			try {
+			try (InputStream fileContent = filePart.getInputStream()) {
 				boolean isValid = XSDValidator.getInstance().validateXMLSchema(fileContent);
 				if (isValid) {
 					redirectHelper.redirectWithSessionAttribute(request, response, AttributeName.MESSAGE,
